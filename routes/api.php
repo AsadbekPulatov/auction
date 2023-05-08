@@ -24,7 +24,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::apiResource('products', ProductController::class);
+Route::apiResource('product', ProductController::class);
+//Route::apiResource('produscts', ProductController::class);
+Route::put('auction/{id}/price',[\App\Http\Controllers\Api\AuctionController::class,'addauction'])->name('addauction');
+//Route::post('auction/addauction',[\App\Http\Controllers\Api\AuctionController::class,'auction'])->name('addauction');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);

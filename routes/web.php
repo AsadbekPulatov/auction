@@ -18,10 +18,13 @@ Route::get('/', function () {
     return view('auction.index');
 //    return view('welcome');
 })->name('auctions.index');
-
+// Route::get('addsave',)
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+//Route::resource('product',\App\Http\Controllers\ProductController::class);
+Route::resource('product',\App\Http\Controllers\ProductController::class);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
