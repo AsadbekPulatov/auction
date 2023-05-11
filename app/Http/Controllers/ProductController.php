@@ -15,9 +15,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-//        dd(1);
-        $products=Product::all();
- return view('product.index',compact('products'));
+        $products = Product::all();
+        return view('product.index', compact('products'));
     }
 
     /**
@@ -33,34 +32,41 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-//        dd($request->all());
-        $products=new Product();
-        $products->name=$request->name;
-        $products->description=$request->description;
-        if($request->hasFile('image')) {
-            $file = $request->file('image');
-            $extension = $file->getClientOriginalExtension();
-            $filename = time() . '.' . $extension;
-            $file->move('products/', $filename);
-            $products->image = $filename;
-        }
-        $products->start_price=$request->start_price;
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'start_price' => 'required',
+            'end_date' => 'required',
+            'image' => 'required | image | mimes:jpeg,png,jpg,gif,svg | max:2048',
+        ]);
 
-        $products->current_price=$request->current_price;
-        $products->end_date=$request->end_date;
-        $products->save();
+        $product = new Product();
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $name = time() . '.' . $image->getClientOriginalName();
+            $destinationPath = public_path('/images/products');
+            $image->move($destinationPath, $name);
+            $product->image = $name;
+        }
+
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->start_price = $request->start_price;
+        $product->current_price = $request->start_price;
+        $product->end_date = $request->end_date;
+        $product->save();
         return redirect()->route('product.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -71,69 +77,63 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $products=Product::find($id);
+        $products = Product::find($id);
 //        dd($products);
-        return view('product.edit',compact('products'));
+        return view('product.edit', compact('products'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-'name'=>'required',
-            'description'=>'required',
-            'image'=>'required',
-            'start_price'=>'required',
-            'current_price'=>'required',
-            'end_date'=>'required',
-        ]);
-$products=Product::find($id);
-$products->name=$request->name;
-$products->description=$request->description;
-
-if($request->hasFile('image')) {
-    $img=public_path('products/').$products->image;
-    if(\Illuminate\Support\Facades\File::exists($img)){
-        File::delete($img);
-    }
-    $file = $request->file('image');
-    $extension = $file->getClientOriginalExtension();
-    $filename = time() . '.' . $extension;
-    $file->move('products/', $filename);
-    $products->image = $filename;
-}
-$products->start_price=$request->start_price;
-
-$products->current_price=$request->current_price;
-
-$products->end_date=$request->end_date;
-
-$products->save();
-return redirect()->route('product.index');
+        $product = Product::find($id);
+        if ($product->user_id > 0) {
+            return response()->json([
+                'message' => 'You can not update this product',
+            ], 403);
+        }
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $name = time() . '.' . $image->getClientOriginalName();
+            $destinationPath = public_path('/images/products');
+            $image->move($destinationPath, $name);
+            $product->image = $name;
+        }
+        if ($request->name != null)
+            $product->name = $request->name;
+        if ($request->description != null)
+            $product->description = $request->description;
+        if ($request->start_price != null) {
+            $product->start_price = $request->start_price;
+            $product->current_price = $request->start_price;
+        }
+        if ($request->end_date != null)
+            $product->end_date = $request->end_date;
+        $product->save();
+        return redirect()->route('product.index');
 
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
 //        dd($id);
-        $products=Product::find($id);
+        $products = Product::find($id);
         $products->delete();
         return redirect()->route('product.index');
     }

@@ -30,13 +30,8 @@
                                 <input class="form-control" type="number" id="start_price" name="start_price">
                             </div>
                             <div class="mb-3">
-                                <label for="current_price" class="form-label">Current Price</label>
-                                <input class="form-control" type="number" id="current_price" name="current_price">
-                            </div>
-
-                            <div class="mb-3">
                                 <label for="end_date" class="form-label">End date</label>
-                                <input class="form-control" type="date" id="end_date" name="end_date">
+                                <input class="form-control" type="datetime-local" id="end_date" name="end_date">
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>

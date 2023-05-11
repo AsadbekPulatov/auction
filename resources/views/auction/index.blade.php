@@ -1,5 +1,18 @@
 @extends('layouts.master')
 @section('content')
+    <style>
+        .status{
+            position: absolute;
+            top: 0;
+            left: 10px;
+            background: transparent;
+            color: #fff;
+            padding: 5px 10px;
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+    </style>
     <!-- our protien  -->
     <div id="protien" class="protien_main">
         <div class="container">
@@ -14,6 +27,11 @@
                 @foreach(\App\Models\Product::all() as $product)
                     <div class="col-md-3 col-sm-6">
                         <div class="protien">
+                            @if ($product->status == 1)
+                                <span class="status text-success">active</span>
+                            @else
+                                <span class="status text-danger">banned</span>
+                            @endif
                             <figure><img src="{{asset('images/products/'.$product->image)}}" alt="#"/></figure>
                             <h3>{{$product->name}}</h3>
                             <span> {{$product->description}}  </span>
