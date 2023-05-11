@@ -32,7 +32,7 @@ class EndAuctionCommand extends Command
     {
         $products = Product::where('status', 1)->get();
         foreach ($products as $item){
-            if (strtotime($item->end_date) <= strtotime(now())){
+            if (strtotime($item->end_date) <= strtotime(now()) || strtotime(now())-strtotime($item->updated_at) >= 1800){
                 $item->status = 0;
                 $item->save();
             }

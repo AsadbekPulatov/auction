@@ -34,8 +34,8 @@
                             @endif
                             <figure><img src="{{asset('images/products/'.$product->image)}}" alt="#"/></figure>
                             <h3>{{$product->name}}</h3>
-                            <span> {{$product->description}}  </span>
-                            <a class="read_more mar_top" href="{{route('products.show', $product->id)}}"> Buy Now</a>
+                            <span> Current Price: {{ number_format($product->current_price, 0, ' ', ' ') }}$  </span>
+                            <a class="read_more mar_top" href="{{route('product.show', $product->id)}}"> Buy Now</a>
                         </div>
                     </div>
                 @endforeach

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
@@ -71,7 +72,8 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = Product::find($id);
+        return view("auction.show", compact('product'));
     }
 
     /**
@@ -136,5 +138,14 @@ class ProductController extends Controller
         $products = Product::find($id);
         $products->delete();
         return redirect()->route('product.index');
+    }
+
+    public function auction(Request $request, $id)
+    {
+        $product=Product::find($id);
+        $product->current_price+=$request['price'];
+        $product->user_id=Auth::user()->id;
+        $product->save();
+        return redirect()->back();
     }
 }

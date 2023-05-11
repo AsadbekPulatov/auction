@@ -27,6 +27,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::apiResource('products', ProductController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('auction',[\App\Http\Controllers\Api\AuctionController::class,'auction'])->name('auction');
+    Route::post('auction',[\App\Http\Controllers\Api\AuctionController::class,'auction']);
     Route::post('logout', [AuthController::class, 'logout']);
 });
