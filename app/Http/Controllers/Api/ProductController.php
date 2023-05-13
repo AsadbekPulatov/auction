@@ -74,8 +74,18 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = Product::find($id);
+        $time = strtotime($product->updated_at) + 1800 - time();
+        if ($time <= 0) {
+            $product->status = 0;
+            $product->save();
+            return response()->json([
+                'product' => $product,
+                'time' => 0
+            ]);
+        }
         return response()->json([
             'product' => $product,
+            'time' => $time
         ]);
     }
 

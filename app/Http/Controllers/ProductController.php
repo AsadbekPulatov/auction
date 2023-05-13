@@ -143,6 +143,9 @@ class ProductController extends Controller
     public function auction(Request $request, $id)
     {
         $product=Product::find($id);
+        if ($product->status == 0){
+            return redirect()->route('auctions.index');
+        }
         $product->current_price+=$request['price'];
         $product->user_id=Auth::user()->id;
         $product->save();

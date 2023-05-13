@@ -25,7 +25,7 @@ Route::get('/dashboard', function () {
 
 //Route::resource('product',\App\Http\Controllers\ProductController::class);
 Route::resource('product',\App\Http\Controllers\ProductController::class);
-Route::post('auction/{id}',[\App\Http\Controllers\ProductController::class,'auction'])->name('auction');
+Route::post('auction/{id}',[\App\Http\Controllers\ProductController::class,'auction'])->name('auction')->middleware('auth');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
