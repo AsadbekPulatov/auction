@@ -20,7 +20,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description</label>
-                                <textarea name="description" id="description" cols="5" class="form-control" rows="10" > value="{{$products->description}}"</textarea>
+                                <textarea name="description" id="description" cols="5" class="form-control" rows="10" >{{$products->description}}</textarea>
                             </div>
                             <div>
                                 <img src="{{asset('products/'.$products->image)}}" width="150px" alt="">
@@ -40,7 +40,7 @@
 
                             <div class="mb-3">
                                 <label for="end_date" class="form-label">End date</label>
-                                <input class="form-control" type="date" id="end_date" name="end_date" value="{{$products->end_date}}">
+                                <input class="form-control" type="datetime-local" id="end_date" name="end_date" value="{{$products->end_date}}">
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>

@@ -29,7 +29,9 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        if (Auth::user()->role == 'admin')
         return redirect()->intended(RouteServiceProvider::HOME);
+        else return redirect()->route('auctions.index');
     }
 
     /**

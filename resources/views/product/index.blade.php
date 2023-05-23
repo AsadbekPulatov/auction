@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="text-right">
-                    <a href="{{route('product.create')}}" class="btn btn-primary m-2 ">Qo'shish</a>
+                    <a href="{{route('product.create')}}" class="btn btn-primary m-2 ">Add Product</a>
                 </div>
                 <div class="p-6 text-gray-900">
                     <table class="table">
@@ -17,12 +17,12 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
-                            <th scope="col">description</th>
+                            <th scope="col">Description</th>
 {{--                            <th scope="col">Image</th>--}}
                             <th scope="col">Start price</th>
                             <th scope="col">Current price</th>
                             <th scope="col">End date</th>
-                            <th scope="col">action</th>
+                            <th scope="col">Action</th>
 
                         </tr>
                         </thead>

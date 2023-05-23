@@ -75,6 +75,12 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         $time = strtotime($product->updated_at) + 1800 - time();
+        if (strtotime($product->end_date)<=strtotime(now())){
+            return response()->json([
+                'product' => $product,
+                'time' => 0
+            ]);
+        }
         if ($time <= 0) {
             $product->status = 0;
             $product->save();

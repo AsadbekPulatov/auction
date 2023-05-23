@@ -24,7 +24,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 //Route::resource('product',\App\Http\Controllers\ProductController::class);
-Route::resource('product',\App\Http\Controllers\ProductController::class);
+Route::resource('product',\App\Http\Controllers\ProductController::class)->middleware('auth');
 Route::post('auction/{id}',[\App\Http\Controllers\ProductController::class,'auction'])->name('auction')->middleware('auth');
 
 Route::middleware('auth')->group(function () {
